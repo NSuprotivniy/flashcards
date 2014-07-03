@@ -1,5 +1,7 @@
 Translator::Application.routes.draw do
 
+  resources :users
+
   root 'flashcards#index'
 
   controller :flashcards do
