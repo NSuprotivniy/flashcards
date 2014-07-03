@@ -4,13 +4,11 @@
 
 @import "bootstrap";
 
-.center {
-  text-align: center;
-  h2 {
-    margin-bottom: 10px;
-    font-size: 1.2em;
-  }
-  h3 {
-  	font-size: 1em;
-  }
+.main_table {
+	background: #eaeaea;
+	text-align: center;
+
+	td {
+		padding:30px;
+	}
 }

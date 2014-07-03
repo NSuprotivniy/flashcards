@@ -1,12 +1,13 @@
-<table>
-	<td class="center hero-unit">
+<h1 class="logo">Translator</h1>
+<table class="main_table">
+	<td>
 		
-			<h2>
+			<h3>
 				Добавляем новые слова здесь
-			</h2>
+			</h3>
 		
 			<%= form_tag do %>
-				<h3>Введите текст</h3>
+				<h4>Введите текст</h4>
 				<div>
 					
 					<%= text_field_tag :text, params[:text], size: '30x1' %>
@@ -17,19 +18,19 @@
 				</div>
 			<% end %>
 			<% if alert %>
-				<h3>Перевод</h3>
+				<h5>Перевод</h5>
 				<p><%= alert %></p>
 			<% end %>
 		
 	</td>
-	<td class="center hero-unit">
+	<td>
 		
-			<h2>
+			<h3>
 				Заучиваем их тут
-			</h2>
+			</h3>
 		
 			<% @count.times do |i|%>
-				<h3><%= @words_en[i] + ' - ' + @words_ru[i] %></h3>
+				<h4><%= @words_en[i] + ' - ' + @words_ru[i] %></h4>
 			<% end %>
 		
 	</td>
