@@ -1,6 +1,6 @@
 Translator::Application.routes.draw do
 
-  resources :users
+  resources :users, only: [:new, :create, :destroy, :edit, :update, :show]
   resources :sessions, only: [:new, :create, :destroy]
 
   root 'flashcards#index'
