@@ -1,0 +1,37 @@
+<table>
+	<td class="center hero-unit">
+		
+			<h2>
+				Добавляем новые слова здесь
+			</h2>
+		
+			<%= form_tag do %>
+				<h3>Введите текст</h3>
+				<div>
+					
+					<%= text_field_tag :text, params[:text], size: '30x1' %>
+				</div>
+				<div>
+					<%= submit_tag "Перевести" ,
+                                class: "btn btn-large btn-primary"%>
+				</div>
+			<% end %>
+			<% if alert %>
+				<h3>Перевод</h3>
+				<p><%= alert %></p>
+			<% end %>
+		
+	</td>
+	<td class="center hero-unit">
+		
+			<h2>
+				Заучиваем их тут
+			</h2>
+		
+			<% @count.times do |i|%>
+				<h3><%= @words_en[i] + ' - ' + @words_ru[i] %></h3>
+			<% end %>
+		
+	</td>
+</table>
+

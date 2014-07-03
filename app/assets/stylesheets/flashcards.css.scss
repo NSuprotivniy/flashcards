@@ -1,0 +1,16 @@
+// Place all the styles related to the Flashcards controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "bootstrap";
+
+.center {
+  text-align: center;
+  h2 {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+  }
+  h3 {
+  	font-size: 1em;
+  }
+}
