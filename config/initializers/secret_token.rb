@@ -9,4 +9,20 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Translator::Application.config.secret_key_base = '65a829d924f8a8c787600ce4d6fc724d5c5ef21223d1534896c6f0a18985e3102b8eb6a78cc79be321e716e9e01d456bdf6c01d95846bd18b7b5b2a852cc549b'
+
+require 'securerandom'
+
+def secure_token
+  token_file = Rails.root.join('.secret')
+  if File.exist?(token_file)
+    # Use the existing token.
+    File.read(token_file).chomp
+  else
+    # Generate a new token and store it in token_file.
+    token = SecureRandom.hex(64)
+    File.write(token_file, token)
+    token
+  end
+end
+
+Translator::Application.config.secret_key_base = secure_token

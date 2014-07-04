@@ -29,7 +29,8 @@ class FlashcardsController < ApplicationController
 			word = Word.find_by(en: @text.downcase)
 			
 			if word.nil?
-				translator = BingTranslator.new('rails_translator', 'Sztgywbz+QW9+T0hdWL5oyTNI0UCN3wb+GtShaS21Nk=')
+				bing = BingTranslatorSetting.find(1)
+				translator = BingTranslator.new(bing.client_id, bing.client_secret)
 				@resualt = translator.translate @text, :from => 'en', :to => 'ru'
 				word = Word.new(en: @text.downcase, ru: @resualt.downcase)
 
