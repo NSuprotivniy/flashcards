@@ -1,7 +1,8 @@
 class StaticPagesController < ApplicationController
 
-	require 'bing_translator'
+	def about
+	end
 
-	def home
+	def contact		
 	end
 end

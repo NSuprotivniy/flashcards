@@ -1,6 +1,10 @@
 class Word < ActiveRecord::Base
-	before_save { self.en = en.downcase }
-	before_save { self.ru = email.ru }
+	before_save { en.downcase! }
+	before_save { ru.downcase! }
 
-	validates :en, presence: true, uniqueness: { case_sensitive: false }
+
+	belongs_to :user
+
+	validates :en, presence: true
+	validates :user_id, presence: true
 end

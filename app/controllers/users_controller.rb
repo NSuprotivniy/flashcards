@@ -32,11 +32,9 @@ class UsersController < ApplicationController
       if @user.save
         sign_in @user
         flash[:success] = "Welcome to the Sample App!"
-        format.html { redirect_to @user }
-        format.json { render action: 'show', status: :created, location: @user }
+        format.html { redirect_to root_url }
       else
         format.html { render action: 'new' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -47,11 +45,9 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.update_attributes(user_params)
         flash[:success] = "Profile updated"
-        format.html { redirect_to @user}
-        format.json { head :no_content }
+        format.html { redirect_to root_url}
       else
         format.html { render action: 'edit' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -73,13 +69,6 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:name, :email, :password,
                                    :password_confirmation)
-    end
-
-    def signed_in_user
-      unless signed_in?
-        store_location
-        redirect_to signin_url, notice: "Please sign in."
-      end
     end
 
     def correct_user

@@ -1,38 +1,51 @@
-<h1 class="logo">Translator</h1>
-<table class="main_table">
-	<td>
-		
-			<h3>
-				Добавляем новые слова здесь
-			</h3>
-		
-			<%= form_tag do %>
-				<h4>Введите текст</h4>
-				<div>
-					
-					<%= text_field_tag :text, params[:text], size: '30x1' %>
-				</div>
-				<div>
-					<%= submit_tag "Перевести" ,
-                                class: "btn btn-large btn-primary"%>
-				</div>
-			<% end %>
-			<% if alert %>
-				<h5>Перевод</h5>
-				<p><%= alert %></p>
-			<% end %>
-		
-	</td>
-	<td>
-		
-			<h3>
-				Заучиваем их тут
-			</h3>
-		
-			<% @count.times do |i|%>
-				<h4><%= @words_en[i] + ' - ' + @words_ru[i] %></h4>
-			<% end %>
-		
-	</td>
-</table>
-
+<% if signed_in? %>
+	<h1 class="logo">Translator</h1>
+	<table class="main_table">
+		<td>
+			
+				<h3>
+					Добавляем новые слова здесь
+				</h3>
+			
+				<%= form_tag do %>
+					<h4>Введите текст</h4>
+					<div>
+						
+						<%= text_field_tag :text, params[:text], size: '30x1' %>
+					</div>
+					<div>
+						<%= submit_tag "Перевести" ,
+	                                class: "btn btn-large btn-primary"%>
+					</div>
+				<% end %>
+				<% if alert %>
+					<h5>Перевод</h5>
+					<p><%= alert %></p>
+				<% end %>
+			
+		</td>
+		<td>
+			
+				<h3>
+					Заучиваем их тут
+				</h3>
+				<% if !(current_user.words.count == 0) %>
+			
+					<% @count.times do |i|%>
+						<h4><%= @words_en[i] + ' - ' + @words_ru[i] %></h4>
+					<% end %>
+				<% end %>
+			
+		</td>
+	</table>
+<% else %>
+	<div align="center">
+		<h1>Добро пожаловать!</h1>
+		<h4>Сайт Flashcards поможет вам с изучением английского языка
+			предоставляя возможности перевода с английского на русский
+			и флеш-карточек для повторения переведенных слов
+		</h4>
+		<%= link_to "Зарегестрируйтесь сейчас!", signup_path ,
+	                                class: "btn btn-large btn-primary"%>
+	</div>
+<% end %>

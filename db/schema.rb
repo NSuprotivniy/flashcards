@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140703173601) do
+ActiveRecord::Schema.define(version: 20140704121820) do
 
   create_table "users", force: true do |t|
     t.string   "name"
@@ -31,8 +31,9 @@ ActiveRecord::Schema.define(version: 20140703173601) do
     t.string   "ru"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
-  add_index "words", ["en"], name: "index_words_on_en", unique: true
+  add_index "words", ["user_id"], name: "index_words_on_user_id"
 
 end
