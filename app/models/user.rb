@@ -3,12 +3,19 @@ class User < ActiveRecord::Base
 	before_create :create_remember_token
 	has_many :words, dependent: :destroy
 
-	validates :name, presence: true, length: { maximum: 50 }
+	validates :name, presence: {message: "Поле имени пользователя не может быть пустым"}, 
+		length: { maximum: 50,
+			message: "Имя пользователя слишком длинное(максимум 50 символов" }
 	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
-	validates :email, presence: true, format: { with: VALID_EMAIL_REGEX },
-                    uniqueness: { case_sensitive: false }
+	validates :email, presence: {message: "Поле электронной почты не может быть пустым"},
+		format: { with: VALID_EMAIL_REGEX,  
+			message: "Не правильный адрес электронной почты"}, 
+		uniqueness: { case_sensitive: false ,  
+			message: "Пользователь с таким адресом электронной почты уже существует"}
     has_secure_password
-    validates :password, length: { minimum: 6 }
+    validates :password, presence: {message: "Поле пароля не может быть пустым"},
+    	length: { minimum: 6 ,  
+			message: "Пароль должен быть не менее 6 символов"}
 
     def User.new_remember_token
 	    SecureRandom.urlsafe_base64

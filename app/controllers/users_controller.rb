@@ -31,7 +31,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
         sign_in @user
-        flash[:success] = "Welcome to the Sample App!"
+        flash[:success] = "Добро пожаловать!"
         format.html { redirect_to root_url }
       else
         format.html { render action: 'new' }
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update_attributes(user_params)
-        flash[:success] = "Profile updated"
+        flash[:success] = "Настройки приняты."
         format.html { redirect_to root_url}
       else
         format.html { render action: 'edit' }
@@ -56,7 +56,7 @@ class UsersController < ApplicationController
   # DELETE /users/1.json
   def destroy
     User.find(params[:id]).destroy
-    flash[:success] = "User deleted."
+    flash[:success] = "Пользователь удален."
     respond_to do |format|
       format.html { redirect_to root_url }
       format.json { head :no_content }

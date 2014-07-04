@@ -25,16 +25,21 @@ class FlashcardsController < ApplicationController
 		end	
 	end
 
-	def translate
-
-		translator = BingTranslator.new('rails_translator', 'Sztgywbz+QW9+T0hdWL5oyTNI0UCN3wb+GtShaS21Nk=')
+	def translate		
 		@text = params[:text]
-		@resualt = translator.translate @text, :from => 'en', :to => 'ru'
-		@word = current_user.words.build(en: @text.downcase, ru: @resualt.downcase)
-		if @word.save
-			redirect_to '/', alert: @resualt
+		if !@text.blank?
+			translator = BingTranslator.new('rails_translator', 'Sztgywbz+QW9+T0hdWL5oyTNI0UCN3wb+GtShaS21Nk=')
+			@resualt = translator.translate @text, :from => 'en', :to => 'ru'
+			@word = current_user.words.build(en: @text.downcase, ru: @resualt.downcase)
+			if @word.save
+				redirect_to '/', alert: @resualt
+			else
+				render 'index'
+			end
 		else
+			flash.now[:error] = 'Для перевода заполните поле'
 			render 'index'
 		end
+		
 	end
 end

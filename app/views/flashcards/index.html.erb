@@ -1,49 +1,53 @@
+<%= provide(:title, 'Главная') %>
 <% if signed_in? %>
-	<h1 class="logo">Translator</h1>
-	<table class="main_table">
-		<td>
-			
-				<h3>
-					Добавляем новые слова здесь
-				</h3>
-			
-				<%= form_tag do %>
-					<h4>Введите текст</h4>
-					<div>
-						
-						<%= text_field_tag :text, params[:text], size: '30x1' %>
-					</div>
-					<div>
-						<%= submit_tag "Перевести" ,
-	                                class: "btn btn-large btn-primary"%>
-					</div>
-				<% end %>
-				<% if alert %>
-					<h5>Перевод</h5>
-					<p><%= alert %></p>
-				<% end %>
-			
-		</td>
-		<td>
-			
-				<h3>
-					Заучиваем их тут
-				</h3>
-				<% if !(current_user.words.count == 0) %>
-			
-					<% @count.times do |i|%>
-						<h4><%= @words_en[i] + ' - ' + @words_ru[i] %></h4>
+	<% if !@word.nil? %>
+			<%= render 'shared/error_messages', object: @word %>
+    <% end %>
+   	<div align="center">
+		<h1 class="logo">Карточки</h1>
+		<table class="main_table">
+			<tr>
+				<td>				
+					<h3>Добавляем новые карточки здесь</h3>		
+				</td>
+				<td>
+					<h3>Заучиваем их тут</h3>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<%= form_tag do %>
+						<h4>Введите текст</h4>
+						<div>
+							<%= text_field_tag :text, params[:text], size: '30x1' %>
+						</div>
+						<div>
+							<%= submit_tag "Перевести" ,
+			                            class: "btn btn-large btn-primary"%>
+						</div>
 					<% end %>
-				<% end %>
-			
-		</td>
-	</table>
+					<% if alert %>
+						<h5>Перевод</h5>
+						<p><%= alert %></p>
+					<% end %>
+				</td>
+				<td>
+					<% if !@count.nil? %>
+						<% @count.times do |i|%>
+							<h4><%= @words_en[i] + ' - ' + @words_ru[i] %></h4>
+						<% end %>
+					<% end %>
+				</td>
+			</tr>
+		</table>
+	</div>
 <% else %>
 	<div align="center">
 		<h1>Добро пожаловать!</h1>
-		<h4>Сайт Flashcards поможет вам с изучением английского языка
-			предоставляя возможности перевода с английского на русский
-			и флеш-карточек для повторения переведенных слов
+		<h3>Сайт Flashcards - помощник в изучении английского языка.</h3>
+		<h4>
+			Он предоставит вам возможность перевода с английского языка на русский
+			и систему флеш-карточек для повторения переведенных слов.
 		</h4>
 		<%= link_to "Зарегестрируйтесь сейчас!", signup_path ,
 	                                class: "btn btn-large btn-primary"%>

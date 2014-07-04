@@ -5,6 +5,6 @@ class Word < ActiveRecord::Base
 
 	belongs_to :user
 
-	validates :en, presence: true
+	validates :en, presence: {message: "Для перевода заполните текстовое поле"}
 	validates :user_id, presence: true
 end

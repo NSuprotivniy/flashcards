@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
 	      	sign_in user
       		redirect_back_or root_url
 	    else
-	      	flash.now[:error] = 'Invalid email/password combination'
+	      	flash.now[:error] = 'Неверный адрес электронной почты или пароль'
 	      	render 'new'
 	    end
 	end
