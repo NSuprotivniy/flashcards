@@ -3,23 +3,21 @@ class FlashcardsController < ApplicationController
 
 	def index
 		if signed_in?
-			words = current_user.words
-			if !(words.length == 0)
-				@words_en = []
-				@words_ru = []
-				@count = words.length
-				if @count < 6
-					i = 0
-				else
-					@count = 5
-					i = rand(@count - 4) + 1
-				end
-				
-				@count.times do |j|
-					word = words[i+j]
-					@words_en << word.en
-					@words_ru << word.ru
-					
+			link = Link.find_by(user_id: current_user.id)
+			if !link.nil?
+				words_id = link.words_id.split('|')
+				@count = words_id.length
+				if !(@count == 0)				
+					if @count < 6
+						i = 0
+					else
+						@count = 5
+						i = rand(@count - 4) + 1
+					end
+					@words = []
+					@count.times do |j|
+						@words << Word.find(words_id[i+j-1])
+					end
 				end
 			end
 		end	
@@ -28,14 +26,32 @@ class FlashcardsController < ApplicationController
 	def translate		
 		@text = params[:text]
 		if !@text.blank?
-			translator = BingTranslator.new('rails_translator', 'Sztgywbz+QW9+T0hdWL5oyTNI0UCN3wb+GtShaS21Nk=')
-			@resualt = translator.translate @text, :from => 'en', :to => 'ru'
-			@word = current_user.words.build(en: @text.downcase, ru: @resualt.downcase)
-			if @word.save
-				redirect_to '/', alert: @resualt
+			word = Word.find_by(en: @text.downcase)
+			
+			if word.nil?
+				translator = BingTranslator.new('rails_translator', 'Sztgywbz+QW9+T0hdWL5oyTNI0UCN3wb+GtShaS21Nk=')
+				@resualt = translator.translate @text, :from => 'en', :to => 'ru'
+				word = Word.new(en: @text.downcase, ru: @resualt.downcase)
+
+				if !word.save
+					render 'index'
+				end
 			else
-				render 'index'
+				@resualt = word.ru
 			end
+
+			link = Link.find_by(user_id: current_user.id)
+			if link.nil?
+				link = Link.new(user_id: current_user.id, words_id: word.id.to_s)
+			else
+				words_id = link.words_id.split('|')
+				if !words_id.include?(word.id.to_s)
+					link.words_id += '|' + word.id.to_s
+				end
+			end
+			link.save
+			redirect_to '/', alert: @resualt
+
 		else
 			flash.now[:error] = 'Для перевода заполните поле'
 			render 'index'

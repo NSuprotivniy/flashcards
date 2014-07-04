@@ -34,7 +34,7 @@
 				<td>
 					<% if !@count.nil? %>
 						<% @count.times do |i|%>
-							<h4><%= @words_en[i] + ' - ' + @words_ru[i] %></h4>
+							<h4><%= "#{@words[i].en} - #{@words[i].ru}" %></h4>
 						<% end %>
 					<% end %>
 				</td>
