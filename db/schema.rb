@@ -11,21 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140704190021) do
-
-  create_table "bing_translator_settings", force: true do |t|
-    t.string   "client_id"
-    t.string   "client_secret"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "links", force: true do |t|
-    t.integer  "user_id"
-    t.string   "words_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+ActiveRecord::Schema.define(version: 20140707115414) do
 
   create_table "users", force: true do |t|
     t.string   "name"
@@ -39,6 +25,11 @@ ActiveRecord::Schema.define(version: 20140704190021) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["remember_token"], name: "index_users_on_remember_token"
+
+  create_table "users_words", id: false, force: true do |t|
+    t.integer "user_id"
+    t.integer "word_id"
+  end
 
   create_table "words", force: true do |t|
     t.string   "en"

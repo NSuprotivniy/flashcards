@@ -7,7 +7,7 @@ Translator::Application.routes.draw do
 
   controller :flashcards do
     get '/' => :index
-    post '/' => :translate
+    post '/' => :create
   end
 
   match '/signup',  to: 'users#new',            via: 'get'

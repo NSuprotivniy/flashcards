@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
 	before_save { self.email = email.downcase }
 	before_create :create_remember_token
+	has_and_belongs_to_many :words
 
 	validates :name, presence: {message: "Поле имени пользователя не может быть пустым"}, 
 		length: { maximum: 50,

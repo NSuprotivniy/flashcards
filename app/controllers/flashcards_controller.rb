@@ -3,10 +3,9 @@ class FlashcardsController < ApplicationController
 
 	def index
 		if signed_in?
-			link = Link.find_by(user_id: current_user.id)
-			if !link.nil?
-				words_id = link.words_id.split('|')
-				@count = words_id.length
+			words = current_user.words
+			if !words.blank?
+				@count = words.length
 				if !(@count == 0)				
 					if @count < 6
 						i = 0
@@ -16,47 +15,37 @@ class FlashcardsController < ApplicationController
 					end
 					@words = []
 					@count.times do |j|
-						@words << Word.find(words_id[i+j-1])
+						@words << words[i+j-1]
 					end
 				end
 			end
 		end	
 	end
 
-	def translate		
-		@text = params[:text]
-		if !@text.blank?
-			word = Word.find_by(en: @text.downcase)
-			
-			if word.nil?
-				bing = BingTranslatorSetting.find(1)
-				translator = BingTranslator.new(bing.client_id, bing.client_secret)
-				@resualt = translator.translate @text, :from => 'en', :to => 'ru'
-				word = Word.new(en: @text.downcase, ru: @resualt.downcase)
-
-				if !word.save
-					render 'index'
-				end
-			else
-				@resualt = word.ru
-			end
-
-			link = Link.find_by(user_id: current_user.id)
-			if link.nil?
-				link = Link.new(user_id: current_user.id, words_id: word.id.to_s)
-			else
-				words_id = link.words_id.split('|')
-				if !words_id.include?(word.id.to_s)
-					link.words_id += '|' + word.id.to_s
-				end
-			end
-			link.save
-			redirect_to '/', alert: @resualt
-
-		else
+	def create	
+		text = params[:text]
+		text.downcase!
+		if text.blank?
 			flash.now[:error] = 'Для перевода заполните поле'
 			render 'index'
-		end
+		else
+			word = Word.find_by(en: text)
+			if word.nil?				
+				resualt = translate('en', 'ru', text)
+				word = Word.create(en: text, ru: resualt)
+			end			
+			current_user.words << word unless current_user.words.include?(word)
+			redirect_to '/', alert: @resualt
+		end	
+	end
+
+	
+	def translate(input_lang, output_lang, text)
+		bing_secret = File.open("#{Rails.root}/.bing_secret", 'r').read.split(' ')
+		id = bing_secret[0]
+		secret = bing_secret[1]
+		translator = BingTranslator.new(id, secret)
+		return translator.translate text, :from => input_lang, :to => output_lang
 		
 	end
 end
