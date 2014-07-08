@@ -1,3 +1,0 @@
-Для включения Bing Translator необходимо зарегестрировать аккаунт и
-в консоли запустить команду 
-File.open(File.join(Rails.root, '.bing_secret'), 'w') {|file| file.write 'CLIENT_ID CLIENT_SECRET'}
