@@ -3,22 +3,8 @@ class FlashcardsController < ApplicationController
 
 	def index
 		if signed_in?
-			words = current_user.words
-			if !words.blank?
-				@count = words.length
-				if !(@count == 0)				
-					if @count < 6
-						i = 0
-					else
-						@count = 5
-						i = rand(@count - 4) + 1
-					end
-					@words = []
-					@count.times do |j|
-						@words << words[i+j-1]
-					end
-				end
-			end
+			@words = current_user.words.order("RANDOM()").limit(5)
+			@count = @words.length
 		end	
 	end
 
@@ -39,7 +25,7 @@ class FlashcardsController < ApplicationController
 		end	
 	end
 
-	
+
 	def translate(input_lang, output_lang, text)
 		bing_secret = File.open("#{Rails.root}/.bing_secret", 'r').read.split(' ')
 		id = bing_secret[0]

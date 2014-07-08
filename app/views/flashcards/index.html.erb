@@ -31,13 +31,15 @@
 						<p><%= alert %></p>
 					<% end %>
 				</td>
-				<td>
-					<% if !@count.nil? %>
+				<% if @count != 0 %> 
+					<td>
 						<% @count.times do |i|%>
 							<h4><%= "#{@words[i].en} - #{@words[i].ru}" %></h4>
 						<% end %>
-					<% end %>
-				</td>
+						<%= link_to "Обновить", root_url ,
+	                                class: "btn"%>
+					</td>
+				<% end %>
 			</tr>
 		</table>
 	</div>
